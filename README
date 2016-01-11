@@ -1,0 +1,19 @@
+### Looking Glass - Python + Bottle.py
+
+This is an application to run some Looking Glass commands.
+So far, the following features are available:
+
+1) DNS (Domain Name Service) - DIG
+2) PING
+3) Traceroute
+4) NMAP (Network Mapper)
+
+To start the app, you need to have Python (2.7 up) and Bottle.py installer (pip install bottle.py).
+
+To run the server, change to directory where the files are available and run:
+
+# python lg.py
+
+this will start a web server listening only on localhost, port 8080.
+
+You can change that, by editing the last line of lg.py code. change host="YOUR IP ADDRESS".
