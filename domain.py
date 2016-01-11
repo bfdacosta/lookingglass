@@ -31,7 +31,7 @@ class traceroute(object):
         self.address = address
     def trace (self):
         import subprocess
-        p = subprocess.Popen(["traceroute", "-A", self.address], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(["/usr/sbin/traceroute", "-n", "-A", self.address], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out = p.communicate()[0]
         return out
 class nmap(object):
