@@ -53,4 +53,4 @@ def nmap():
 def default():
      return bottle.static_file('default.html', root='www/static')
 
-bottle.run()
+bottle.run(host='localhost', port=8080)
