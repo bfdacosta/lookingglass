@@ -3,9 +3,6 @@
 
 # import content
 
-from sys import exit
-from sys import argv
-import os
 import subprocess
 
 class dig(object):
