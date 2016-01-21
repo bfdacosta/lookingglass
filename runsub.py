@@ -4,6 +4,7 @@
 #
 import subprocess
 
+
 def cmd(command_line, shell=False):
     """
     Execute the command using subprocess.
@@ -32,4 +33,3 @@ def cmd(command_line, shell=False):
         return c.returncode, c_out
     else:
         return c.returncode, c_err
-
