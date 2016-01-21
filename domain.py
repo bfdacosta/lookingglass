@@ -22,7 +22,8 @@ class Dig(object):
     def query(self):
         """ Returns the DNS query """
 
-        dig_cmd = 'dig {0} @{1} {2}'.format(self.domain, self.dns)
+        dig_cmd = 'dig {0} @{1} {2}'.format(self.domain, self.dns,
+                                            self.query_type)
         dig_ptr_cmd = 'dig -x {0} @{1}'.format(self.domain, self.dns)
 
         if self.query_type.lower() == 'ptr':
