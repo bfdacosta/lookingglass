@@ -2,90 +2,94 @@
 # -*- coding: utf-8 -*-
 
 # import content
+import runsub
 
-from sys import exit
-from sys import argv
-import os
-import subprocess
 
-class dig(object):
-    ''' Get information about DNS resolution
+class Dig(object):
+    """ Get information about DNS resolution
 
         Attributes:
         domain      string with domain name
         query_type  (optional) with query type eg. A, MX, etc
         dns         (optional) DNS Server
-    '''
+    """
 
-    def __init__ (self, domain, query_type = "A", dns = "8.8.8.8"):
+    def __init__(self, domain, query_type="A", dns="8.8.8.8"):
         self.domain = domain
         self.dns = dns
         self.query_type = query_type
 
-    def query (self):
-        ''' Returns the DNS query '''
+    def query(self):
+        """ Returns the DNS query """
+
+        dig_cmd = 'dig {0} @{1} {2}'.format(self.domain, self.dns,
+                                            self.query_type)
+        dig_ptr_cmd = 'dig -x {0} @{1}'.format(self.domain, self.dns)
 
         if self.query_type.lower() == 'ptr':
-            p = subprocess.Popen(["dig", '-x', self.domain, "@"+self.dns], stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
-            out = p.communicate()[0]
-            return out
+            out = runsub.cmd(dig_ptr_cmd)
+            return out[1]
+
         else:
-            p = subprocess.Popen(["dig", self.domain, "@"+self.dns, self.query_type], stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
-            out = p.communicate()[0]
-            return out
+            out = runsub.cmd(dig_cmd)
 
-class ping(object):
-    ''' Get information about the ping (icmp) '''
+            return out[1]
 
-    def __init__ (self, address):
+
+class Ping(object):
+    """ Get information about the ping (icmp) """
+
+    def __init__(self, address):
         self.address = address
 
-    def do (self):
-        '''  Executes the ping to the address '''
+    def do(self):
+        """  Executes the ping to the address """
 
-        import subprocess
-        p = subprocess.Popen(["ping", "-c", "4", self.address], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out = p.communicate()[0]
-        return out
+        ping_cmd = 'ping -c 4 {0}'.format(self.address)
+        out = runsub.cmd(ping_cmd)
+        return out[1]
 
-class traceroute(object):
-    ''' Get information about trace route to the address '''
 
-    def __init__ (self, address):
+class Traceroute(object):
+    """ Get information about trace route to the address """
+
+    def __init__(self, address):
         self.address = address
 
-    def trace (self):
-        ''' Executes the trace route to address '''
+    def trace(self):
+        """ Executes the trace route to address """
 
-        p = subprocess.Popen(["/usr/sbin/traceroute", "-n", "-A", self.address], stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE)
-        out = p.communicate()[0]
-        return out
+        traceroute_cmd = '/usr/sbin/traceroute -n -A {0}'.format(self.address)
+        out = runsub.cmd(traceroute_cmd)
 
-class nmap(object):
-    ''' Get information network mapper to the address '''
+        return out[1]
 
-    def __init__ (self, address):
+
+class NMap(object):
+    """ Get information network mapper to the address """
+
+    def __init__(self, address):
         self.address = address
 
-    def run (self):
-        ''' Executes the nmap to the host '''
+    def run(self):
+        """ Executes the nmap to the host """
 
-        p = subprocess.Popen(["nmap", self.address], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out = p.communicate()[0]
-        return out
+        nmap_cmd = 'map {0}'.format(self.address)
+        out = runsub.cmd(nmap_cmd)
 
-class whois(object):
-    ''' Get informations about the domain (whois) '''
+        return out[1]
 
-    def __init__ (self, domain):
+
+class Whois(object):
+    """ Get informations about the domain (whois) """
+
+    def __init__(self, domain):
         self.domain = domain
 
-    def query (self):
-        ''' Executes the whois on the domain '''
-        return subprocess.call (["whois", self.domain], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out = p.communicate()[0]
-        return out
+    def query(self):
+        """ Executes the whois on the domain """
 
+        whois_cmd = 'whois {0}'.format(self.domain)
+        out = runsub.cmd(whois_cmd)
+
+        return out[1]
