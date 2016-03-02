@@ -4,6 +4,7 @@ import domain
 
 # Looking Glass - V. 0.1
 
+
 @bottle.route('/dig', method='GET')
 def lg():
     if bottle.request.GET.get('save', '').strip():
